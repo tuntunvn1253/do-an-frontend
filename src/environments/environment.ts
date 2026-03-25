@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:2020/api', // Khi bạn chạy ng serve ở máy
+  apiUrl: 'http://do-an-backend-production.up.railway.app/api', // Khi bạn chạy ng serve ở máy
 };
