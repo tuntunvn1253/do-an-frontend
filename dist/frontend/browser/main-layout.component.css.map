@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/layouts/main-layout/main-layout.component.css"],
+  "sourcesContent": [":host {\r\n  display: block;\r\n}\r\n\r\n.main-content {\r\n  min-height: calc(100vh - 160px); /* adjust based on header/footer height */\r\n}\r\n"],
+  "mappings": ";AAAA;AACE,WAAS;AACX;AAEA,CAAC;AACC,cAAY,KAAK,MAAM,EAAE;AAC3B;",
+  "names": []
+}

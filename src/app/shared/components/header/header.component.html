@@ -1,0 +1,111 @@
+<header class="header-figma">
+  <!-- Promo Bar -->
+  <div class="header-figma__promo-bar">
+    <div class="header-figma__promo header-figma__promo--purple">
+      <span class="header-figma__promo-text active">{{ promos[activePromoIndex()] }}</span>
+      <button class="header-figma__promo-btn">Xem ngay</button>
+    </div>
+  </div>
+
+  <div class="header-figma__main">
+    <div class="header-figma__logo">
+      <a routerLink="/">
+        <img src="https://www.figma.com/api/mcp/asset/b95e13a4-38a3-4de3-b813-902c96d7e6b2" alt="CNC HUB Logo" />
+      </a>
+    </div>
+    
+    <nav class="header-figma__nav">
+      <a routerLink="/category/nam" class="header-figma__nav-link">Nam</a>
+      <a routerLink="/category/nu" class="header-figma__nav-link">Nữ</a>
+      <a routerLink="/category/tre-em" class="header-figma__nav-link">Trẻ Em</a>
+      
+      <!-- Nút Sản phẩm có Dropdown -->
+      <a routerLink="/products" class="header-figma__nav-link" data-nav="products">Sản phẩm</a>
+      
+      <a routerLink="/brands" class="header-figma__nav-link">Thương Hiệu</a>
+      <a routerLink="/news" class="header-figma__nav-link">Tin tức</a>
+      <a routerLink="/offers" class="header-figma__nav-link header-figma__nav-link--highlight">Ưu Đãi</a>
+      <a routerLink="/contact" class="header-figma__nav-link">Liên hệ</a>
+
+      <!-- Dropdown menu cho Sản phẩm -->
+      <div class="nav-dropdown-figma" data-dropdown="products">
+        <div class="nav-dropdown-figma__inner">
+          <!-- Cột Categories -->
+          <div class="nav-dropdown-figma__col">
+            <div class="nav-dropdown-figma__col-title nav-dropdown-figma__col-title--active">Danh Mục</div>
+            <a *ngFor="let category of categories()" 
+               [routerLink]="['/products']" 
+               [queryParams]="{ category_slug: category.slug }"
+               class="nav-dropdown-figma__item">
+              {{ category.name }}
+            </a>
+          </div>
+          
+          <!-- Cột Brands -->
+          <div class="nav-dropdown-figma__col">
+            <div class="nav-dropdown-figma__col-title">Thương Hiệu</div>
+            <a *ngFor="let brand of brands()" 
+               [routerLink]="['/products']" 
+               [queryParams]="{ brand_name: brand.name }"
+               class="nav-dropdown-figma__item">
+              {{ brand.name }}
+            </a>
+          </div>
+          
+          <!-- Cột Menu tĩnh -->
+          <div class="nav-dropdown-figma__col">
+            <div class="nav-dropdown-figma__col-title">Menu</div>
+            <a routerLink="/products" class="nav-dropdown-figma__item nav-dropdown-figma__item--green">Tất Cả Sản Phẩm</a>
+            <a routerLink="/products" [queryParams]="{ is_featured: true }" class="nav-dropdown-figma__item">Sản Phẩm Nổi Bật</a>
+            <a routerLink="/products" [queryParams]="{ sortBy: 'created_at', order: 'DESC' }" class="nav-dropdown-figma__item">Hàng Mới Về</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="header-figma__search-cart">
+      <div class="header-figma__search">
+        <input type="text" class="header-figma__search-input" placeholder="Bạn đang tìm gì" />
+        <button class="header-figma__search-btn" title="Tìm kiếm">
+          <img src="https://www.figma.com/api/mcp/asset/571eaa3e-3b30-4cec-86a9-a0a6c6c7032e" alt="search" />
+        </button>
+      </div>
+      <button class="header-figma__icon-btn" title="Yêu thích">
+        <i class="fa-regular fa-heart"></i>
+      </button>
+      <a routerLink="/cart" class="header-figma__icon-btn" title="Giỏ hàng">
+        <i class="fa-solid fa-bag-shopping"></i>
+      </a>
+      <a *ngIf="!isLoggedIn()" routerLink="/login" class="header-figma__icon-btn" title="Tài khoản">
+        <i class="fa-regular fa-user"></i>
+      </a>
+      <div *ngIf="isLoggedIn()" class="header-figma__icon-btn user-menu" title="Tài khoản">
+        <i class="fa-solid fa-user"></i>
+        <div class="user-dropdown">
+          <div class="user-info">
+            <span class="user-name">{{ currentUser()?.full_name }}</span>
+            <span class="user-email">{{ currentUser()?.email }}</span>
+          </div>
+          <a routerLink="/user/profile" class="user-menu-item">Tài khoản của tôi</a>
+          <a routerLink="/user/orders" class="user-menu-item">Đơn hàng</a>
+          <button (click)="logout()" class="user-menu-item logout-btn">Đăng xuất</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-figma__benefits">
+    <div class="header-figma__benefit">
+      <img src="https://www.figma.com/api/mcp/asset/16d5f533-03c4-4012-8202-b7f30963b334" alt="Miễn phí giao hàng" />
+      <span>Miễn phí giao hàng đơn từ 699k</span>
+    </div>
+    <div class="header-figma__benefit">
+      <img src="https://www.figma.com/api/mcp/asset/c6e1598c-c4ca-48ea-b931-1156ac8276a7" alt="Miễn phí đổi trả" />
+      <span>Miễn phí đổi trả đến 30 ngày</span>
+    </div>
+    <div class="header-figma__benefit">
+      <img src="https://www.figma.com/api/mcp/asset/b0b4177e-c832-49a9-ba75-5a88fd8c614c" alt="Chính hãng" />
+      <span>Cam kết 100% chính hãng</span>
+    </div>
+  </div>
+</header>

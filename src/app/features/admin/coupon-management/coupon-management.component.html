@@ -1,0 +1,137 @@
+<div class="coupon-management-container">
+  <div class="header-section">
+    <div class="header-content">
+      <div class="title-group">
+        <h1 class="page-title">Quản Lý Mã Giảm Giá</h1>
+        <p class="page-subtitle">Quản lý các chương trình khuyến mãi và coupon</p>
+      </div>
+      <button class="btn btn-primary" (click)="openModal()">
+        <span class="icon">+</span> Thêm Mã Mới
+      </button>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <div class="search-box">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Tìm kiếm theo mã hoặc mô tả..."
+        [(ngModel)]="searchQuery"
+      />
+    </div>
+    <span class="search-count">{{ filteredCoupons.length }} mã giảm giá</span>
+  </div>
+
+  <div class="table-container" *ngIf="!loading">
+    <table class="coupons-table">
+      <thead>
+        <tr>
+          <th>Mã</th>
+          <th>Giảm Giá</th>
+          <th>Đơn Tối Thiểu</th>
+          <th>Hạn Dùng</th>
+          <th>Lượt Dùng</th>
+          <th>Trạng Thái</th>
+          <th style="text-align: center;">Hành Động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let coupon of filteredCoupons" class="coupon-row">
+          <td><strong class="coupon-code">{{ coupon.code }}</strong></td>
+          <td>
+            {{ coupon.discount_type === 'percent' ? coupon.discount_value + '%' : (coupon.discount_value | number) + 'đ' }}
+          </td>
+          <td>{{ (coupon.min_order_amount | number) }}đ</td>
+          <td>
+            <div class="date-info">
+              <small>Từ: {{ coupon.starts_at ? (coupon.starts_at | date:'dd/MM/yyyy') : '-' }}</small><br>
+              <small>Đến: {{ coupon.ends_at ? (coupon.ends_at | date:'dd/MM/yyyy') : '-' }}</small>
+            </div>
+          </td>
+          <td>{{ coupon.usage_count }} / {{ coupon.usage_limit_total || '∞' }}</td>
+          <td>
+            <span [ngClass]="coupon.is_active ? 'badge-active' : 'badge-inactive'">
+              {{ coupon.is_active ? 'Hoạt động' : 'Tạm dừng' }}
+            </span>
+          </td>
+          <td style="text-align: center;">
+            <button class="btn btn-edit" (click)="openModal(coupon)">Sửa</button>
+            <button class="btn btn-delete" (click)="deleteCoupon(coupon.id)">Xóa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="showModal" class="modal-overlay" (click)="showModal = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ isAddMode ? 'Thêm Mã Giảm Giá' : 'Cập Nhật Mã' }}</h2>
+        <button (click)="showModal = false">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="couponForm">
+          <div class="form-group">
+            <label>Mã Giảm Giá *</label>
+            <input type="text" class="form-control" formControlName="code" placeholder="Ví dụ: GIAM20">
+          </div>
+          <div class="form-group">
+            <label>Mô Tả</label>
+            <textarea class="form-control" formControlName="description"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Loại Giảm Giá</label>
+              <select class="form-control" formControlName="discount_type">
+                <option value="percent">Phần trăm (%)</option>
+                <option value="amount">Số tiền cố định (đ)</option>
+              </select>
+            </div>
+            <div class="form-group half">
+              <label>Giá Trị Giảm *</label>
+              <input type="number" class="form-control" formControlName="discount_value">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Giảm Tối Đa (đ)</label>
+              <input type="number" class="form-control" formControlName="max_discount_amount">
+            </div>
+            <div class="form-group half">
+              <label>Đơn Tối Thiểu (đ)</label>
+              <input type="number" class="form-control" formControlName="min_order_amount">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Bắt Đầu</label>
+              <input type="datetime-local" class="form-control" formControlName="starts_at">
+            </div>
+            <div class="form-group half">
+              <label>Kết Thúc</label>
+              <input type="datetime-local" class="form-control" formControlName="ends_at">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Giới Hạn Lượt Dùng</label>
+              <input type="number" class="form-control" formControlName="usage_limit_total">
+            </div>
+            <div class="form-group half">
+              <label>Trạng Thái</label>
+              <select class="form-control" formControlName="is_active">
+                <option [ngValue]="true">Hoạt động</option>
+                <option [ngValue]="false">Tạm dừng</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showModal = false">Hủy</button>
+        <button class="btn btn-primary" (click)="saveCoupon()">Lưu Mã</button>
+      </div>
+    </div>
+  </div>
+</div>

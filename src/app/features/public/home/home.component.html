@@ -1,0 +1,237 @@
+<!--  BANNER CAROUSEL  -->
+<section class="banner-carousel">
+  <div class="carousel-wrapper">
+    <div class="carousel-inner">
+      <div
+        *ngFor="let banner of banners; let i = index"
+        class="carousel-item"
+        [class.active]="currentBanner() === i"
+      >
+        <img [src]="banner" alt="Banner {{ i + 1 }}" class="carousel-img" />
+      </div>
+    </div>
+
+    <button class="carousel-control prev-btn" (click)="prevBanner()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="carousel-control next-btn" (click)="nextBanner()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <div class="carousel-indicators">
+      <span
+        *ngFor="let banner of banners; let i = index"
+        class="indicator"
+        [class.active]="currentBanner() === i"
+        (click)="goToBanner(i)"
+      ></span>
+    </div>
+  </div>
+</section>
+
+<!--  DANH MỤC SẢN PHẨM  -->
+<section class="categories-section">
+  <div class="container">
+    <h2 class="section-heading">DANH MỤC SẢN PHẨM</h2>
+    <div class="categories-wrapper">
+      <div class="category-row" *ngIf="categories()?.length">
+        <a *ngFor="let cat of categories()" [routerLink]="['/products']" class="category-card">
+          <div class="category-image">
+            <img [src]="cat?.image_url || 'https://via.placeholder.com/120'" [alt]="cat?.name" />
+          </div>
+          <div class="category-info">
+            <p class="category-title">{{ cat?.name }}</p>
+          </div>
+        </a>
+      </div>
+      <p *ngIf="!categories()?.length" style="text-align: center; color: #999">
+        Đang tải danh mục...
+      </p>
+    </div>
+  </div>
+</section>
+
+<!--  HÀNG MỚI VỀ (CAROUSEL)  -->
+<section class="hang-moi-ve-section">
+  <div class="container">
+    <div class="hang-moi-header">
+      <h2 class="hang-moi-title">HÀNG MỚI VỀ</h2>
+      <div class="carousel-nav-buttons">
+        <button (click)="scrollCarousel(hangMoiCarousel, 'left')">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button (click)="scrollCarousel(hangMoiCarousel, 'right')">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        <a routerLink="/products" class="hang-moi-view-all ml-4">XEM TẤT CẢ</a>
+      </div>
+    </div>
+    <div class="hang-moi-carousel" #hangMoiCarousel>
+      <div class="hang-moi-track" *ngIf="newProducts()?.length">
+        <a
+          *ngFor="let product of newProducts()"
+          [routerLink]="['/sp', product.slug]"
+          class="hang-moi-card"
+        >
+          <div class="hang-moi-img-wrap">
+            <img [src]="product?.image_primary || ''" [alt]="product?.name" />
+            <span class="hang-moi-badge" *ngIf="product?.created_at">Mới</span>
+          </div>
+          <div class="hang-moi-info">
+            <div class="hang-moi-brand">{{ product?.brand?.name }}</div>
+            <div class="hang-moi-name">{{ product?.name }}</div>
+
+            <!-- Logic hiển thị giá an toàn -->
+            <div class="hang-moi-price" *ngIf="(product?.variants?.length ?? 0) > 0">
+              {{ product?.variants?.[0]?.price | number: '1.0-0' }}₫
+            </div>
+            <div
+              class="hang-moi-price"
+              *ngIf="(product?.variants?.length ?? 0) === 0"
+            >
+              {{ product?.price | number: '1.0-0' }}₫
+            </div>
+          </div>
+        </a>
+      </div>
+      <p *ngIf="!newProducts()?.length" style="text-align: center; color: #999; width: 100%">
+        Đang tải sản phẩm mới...
+      </p>
+    </div>
+  </div>
+</section>
+
+<!--  BANNER GIỮA TRANG  -->
+<section class="figma-banner-section">
+  <div class="container figma-banner-container">
+    <div class="figma-banner-img-wrap">
+      <img
+        src="https://www.figma.com/api/mcp/asset/e0dd1597-b22d-4aa3-9708-eef513fcc888"
+        alt="Khuyến Mãi Lớn"
+      />
+    </div>
+  </div>
+</section>
+
+<!--  SẢN PHẨM NỔI BẬT (LƯỚI)  -->
+<section class="featured-products-section">
+  <div class="container">
+    <div class="featured-products-header">
+      <h2 class="section-heading">SẢN PHẨM NỔI BẬT</h2>
+    </div>
+    <div class="featured-products-grid" *ngIf="featuredProducts().length > 0">
+      <a
+        *ngFor="let product of featuredProducts()"
+        [routerLink]="['/sp', product.slug]"
+        class="product-card"
+      >
+        <div class="product-image-wrap">
+          <img [src]="product?.image_primary || ''" [alt]="product?.name" class="product-image" />
+          <span class="badge sale" *ngIf="product.sale_price && product.sale_price > 0">SALE</span>
+        </div>
+        <div class="product-brand">{{ product?.brand?.name }}</div>
+        <div class="product-title">{{ product?.name }}</div>
+        <div class="product-price">
+          <ng-container *ngIf="product.sale_price && product.sale_price > 0; else standardPrice">
+            <span class="sale-price">{{ product.sale_price | number:'1.0-0' }}đ</span>
+            <span class="original-price">{{ product.price | number:'1.0-0' }}đ</span>
+          </ng-container>
+          <ng-template #standardPrice>
+            <span>{{ product.price | number:'1.0-0' }}đ</span>
+          </ng-template>
+        </div>
+      </a>
+    </div>
+    <p *ngIf="featuredProducts().length === 0" style="text-align: center; color: #999">
+      Không có sản phẩm nổi bật nào để hiển thị.
+    </p>
+    <div class="featured-products-footer">
+      <a routerLink="/products" class="view-all-btn">Xem tất cả</a>
+    </div>
+  </div>
+</section>
+
+<!--  SẢN PHẨM GIẢM GIÁ (LƯỚI)  -->
+<section class="sale-products-section">
+  <div class="container">
+    <div class="featured-products-header">
+      <h2 class="section-heading">SẢN PHẨM GIẢM GIÁ</h2>
+    </div>
+    <div class="featured-products-grid" *ngIf="saleProducts().length > 0">
+      <a
+        *ngFor="let product of saleProducts()"
+        [routerLink]="['/sp', product.slug]"
+        class="product-card"
+      >
+        <div class="product-image-wrap">
+          <img [src]="product?.image_primary || ''" [alt]="product?.name" class="product-image" />
+          <span class="badge sale">SALE</span>
+        </div>
+        <div class="product-brand">{{ product?.brand?.name }}</div>
+        <div class="product-title">{{ product?.name }}</div>
+        <div class="product-price">
+            <span class="sale-price">{{ product.sale_price | number:'1.0-0' }}đ</span>
+            <span class="original-price">{{ product.price | number:'1.0-0' }}đ</span>
+        </div>
+      </a>
+    </div>
+    <p *ngIf="saleProducts().length === 0" style="text-align: center; color: #999">
+      Không có sản phẩm nào đang giảm giá.
+    </p>
+    <div class="featured-products-footer">
+      <a routerLink="/products" class="view-all-btn">Xem tất cả</a>
+    </div>
+  </div>
+</section>
+
+<!--  THƯƠNG HIỆU NỔI BẬT  -->
+<section class="featured-brands-section">
+  <div class="container">
+    <div class="featured-brands-header">
+      <h2 class="section-heading">THƯƠNG HIỆU NỔI BẬT</h2>
+    </div>
+    <div class="featured-brands-grid" *ngIf="brands()?.length">
+      <div *ngFor="let brand of brands()" class="brand-col">
+        <div class="brand-img-wrap">
+          <img [src]="brand?.logo_url || 'https://via.placeholder.com/100'" [alt]="brand?.name" />
+        </div>
+      </div>
+    </div>
+    <p *ngIf="!brands()?.length" style="text-align: center; color: #999">Đang tải thương hiệu...</p>
+  </div>
+</section>
+
+<!--  TIN TỨC THỂ THAO  -->
+<section class="news-section-figma">
+  <div class="news-section-figma__container">
+    <h2 class="section-heading" style="text-align: center">TIN TỨC THỜI TRANG & THỂ THAO</h2>
+    <div class="news-section-figma__filters">
+      <button class="news-section-figma__filter news-section-figma__filter--active">
+        Tin nổi bật
+      </button>
+      <button class="news-section-figma__filter">Tin khuyến mãi</button>
+      <button class="news-section-figma__filter">Mẹo thời trang</button>
+    </div>
+    <div class="news-section-figma__grid">
+      <div *ngFor="let i of [1, 2, 3, 4]" class="news-section-figma__item">
+        <div class="news-section-figma__img-wrap">
+          <img
+            src="https://www.figma.com/api/mcp/asset/1becd494-a94e-4e16-a491-68a00dd79e48"
+            alt="Tin tức"
+          />
+        </div>
+        <div class="news-section-figma__info">
+          <div class="news-section-figma__title">
+            QUYÊN GÓP GIÀY CŨ - TIẾP NỐI HÀNH TRÌNH MỚI CÙNG SUPERSPORTS
+          </div>
+          <a class="news-section-figma__more" href="#"
+            >Xem thêm <span class="news-section-figma__icon">→</span></a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="news-section-figma__footer">
+      <button class="news-section-figma__all-btn">Xem tất cả</button>
+    </div>
+  </div>
+</section>

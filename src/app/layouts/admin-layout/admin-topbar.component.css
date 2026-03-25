@@ -1,0 +1,101 @@
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+}
+
+.topbar-title h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.topbar-title p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.topbar-search {
+  display: flex;
+  gap: 0.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+  padding: 0.25rem 0.5rem;
+  align-items: center;
+  background: #f8fafc;
+}
+
+.topbar-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.95rem;
+}
+
+.topbar-search button {
+  border: none;
+  background: transparent;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.topbar-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+
+.topbar-btn:hover {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.topbar-badge {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  background: #ef4444;
+  color: white;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 999px;
+}
+
+.topbar-btn--profile {
+  padding: 0.5rem 0.8rem;
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.profile-name {
+  font-weight: 600;
+}

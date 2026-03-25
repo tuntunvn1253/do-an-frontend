@@ -1,0 +1,139 @@
+<div class="products-page">
+  <!-- CỘT TRÁI: SIDEBAR BỘ LỌC -->
+  <aside class="filter-sidebar">
+    <h3 class="filter-sidebar__title">Bộ lọc sản phẩm</h3>
+
+    <!-- Lọc 1: Tìm kiếm -->
+    <div class="filter-group">
+      <div class="filter-group__label">Tìm kiếm</div>
+      <div class="filter-group__options">
+        <input class="filter-search-input" 
+               type="text" 
+               [value]="searchTerm()" 
+               (input)="onSearch($any($event.target).value)" 
+               placeholder="Nhập tên sản phẩm..." />
+      </div>
+    </div>
+
+    <!-- Lọc 2: Danh mục (Dữ liệu thật) -->
+    <div class="filter-group">
+      <div class="filter-group__label">Danh mục</div>
+      <div class="filter-group__options">
+        <label *ngFor="let category of categories()" class="filter-checkbox">
+          <input type="checkbox" 
+                 [checked]="selectedCategorySlugs().includes(category.slug)"
+                 (change)="toggleCategory(category.slug)" />
+          {{ category.name }}
+        </label>
+      </div>
+    </div>
+
+    <!-- Lọc 3: Thương hiệu (Dữ liệu thật) -->
+    <div class="filter-group">
+      <div class="filter-group__label">Thương hiệu</div>
+      <div class="filter-group__options">
+        <label *ngFor="let brand of brands()" class="filter-checkbox">
+          <input type="checkbox" 
+                 [checked]="selectedBrandNames().includes(brand.name)"
+                 (change)="toggleBrand(brand.name)" />
+          {{ brand.name }}
+        </label>
+      </div>
+    </div>
+
+    <!-- Các bộ lọc giao diện mẫu (Màu sắc, Giá...) để UI trông phong phú như bản thiết kế -->
+    <div class="filter-group">
+      <div class="filter-group__label">Màu sắc (Giao diện mẫu)</div>
+      <div class="filter-swatches">
+        <span class="swatch" style="background:#000" title="Đen"></span>
+        <span class="swatch" style="background:#e53935" title="Đỏ"></span>
+        <span class="swatch" style="background:#fff; border:1px solid #ccc" title="Trắng"></span>
+        <span class="swatch" style="background:#1976d2" title="Xanh dương"></span>
+        <span class="swatch" style="background:#43a047" title="Xanh lá"></span>
+      </div>
+    </div>
+
+    <!-- Nút Áp dụng bộ lọc -->
+    <div class="filter-group filter-group--action">
+      <button class="btn-apply-filter" (click)="resetPageAndLoad()">Áp dụng bộ lọc</button>
+    </div>
+  </aside>
+
+  <!-- CỘT PHẢI: DANH SÁCH SẢN PHẨM -->
+  <section class="products-content">
+    
+    <!-- Header của lưới sản phẩm (Đếm số lượng & Sắp xếp) -->
+    <div class="products-header">
+      <div class="products-header__info">
+        <h2 class="products-header__title">Sản phẩm</h2>
+        <span class="products-header__count">{{ products().length }} sản phẩm</span>
+      </div>
+      
+      <div class="products-header__sort">
+        <span class="sort-label">Sắp xếp:</span>
+        <select class="sort-select" [value]="sortBy()" (change)="setSort($any($event.target).value)">
+          <option value="created_at">Mới nhất</option>
+          <option value="price">Giá</option>
+          <option value="name">Tên (A-Z)</option>
+        </select>
+        <select class="sort-select" [value]="sortOrder()" (change)="setOrder($any($event.target).value)">
+          <option value="DESC">Giảm dần</option>
+          <option value="ASC">Tăng dần</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Lưới hiển thị sản phẩm -->
+    <div class="products-grid">
+      <ng-container *ngIf="!loading(); else loadingTpl">
+        <ng-container *ngIf="products().length; else emptyTpl">
+          
+          <!-- Vòng lặp Card Sản phẩm -->
+          <article class="product-card" *ngFor="let product of products()">
+            <a [routerLink]="['/sp', product.slug]" class="product-card__img-wrap">
+              <img [src]="product.image_primary || 'https://via.placeholder.com/250'" [alt]="product.name" />
+            </a>
+            
+            <!-- Swatch màu (Mẫu UI từ bản thiết kế) -->
+            <div class="product-card__colors">
+              <span class="color-swatch" style="background:#f2f2f2"></span>
+              <span class="color-swatch" style="background:#0e0e0e"></span>
+            </div>
+
+            <!-- Chi tiết -->
+            <a [routerLink]="['/sp', product.slug]" class="product-card__name">{{ product.name }}</a>
+            <div class="product-card__brand">{{ product.brand?.name || 'Không rõ thương hiệu' }}</div>
+            
+            <!-- Xử lý Giá (Tránh lỗi undefined) -->
+            <div class="product-card__price" *ngIf="(product?.variants?.length ?? 0) > 0">
+              {{ product?.variants?.[0]?.price | number: '1.0-0' }} ₫
+            </div>
+            <div class="product-card__price" *ngIf="(product?.variants?.length ?? 0) === 0">
+              {{ product?.price | number: '1.0-0' }} ₫
+            </div>
+          </article>
+
+        </ng-container>
+      </ng-container>
+
+      <!-- Template Trạng thái -->
+      <ng-template #loadingTpl>
+        <div class="status-msg">
+           <i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải sản phẩm...
+        </div>
+      </ng-template>
+
+      <ng-template #emptyTpl>
+        <div class="status-msg">Không tìm thấy sản phẩm nào phù hợp với bộ lọc.</div>
+      </ng-template>
+    </div>
+
+    <!-- Phân trang -->
+    <div class="products-pagination" *ngIf="page() > 1">
+      <button class="btn-prev-page" (click)="goToPage(page() - 1)">
+        <i class="fa-solid fa-arrow-left"></i> Xem trang trước
+      </button>
+    </div>
+
+  </section>
+</div>

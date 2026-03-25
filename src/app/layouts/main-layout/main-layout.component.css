@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.main-content {
+  min-height: calc(100vh - 160px); /* adjust based on header/footer height */
+}

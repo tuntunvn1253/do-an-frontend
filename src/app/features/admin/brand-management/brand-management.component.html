@@ -1,0 +1,163 @@
+<div class="brand-management-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <div class="title-group">
+        <h1 class="page-title">Quản Lý Brand</h1>
+        <p class="page-subtitle">Quản lý các thương hiệu sản phẩm của bạn</p>
+      </div>
+      <button class="btn btn-primary btn-lg" (click)="openAddModal()">
+        <span class="icon">+</span> Thêm Brand Mới
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Search Bar (không gọi onSearchChange) -->
+  <div class="search-section">
+    <div class="search-box">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Tìm kiếm brand theo tên hoặc mô tả..."
+        [(ngModel)]="searchQuery"
+      />
+      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+    </div>
+    <span class="search-count">{{ filteredBrands.length }} brand</span>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Đang tải dữ liệu...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && brands.length === 0" class="empty-state">
+    <div class="empty-icon">📦</div>
+    <h3>Chưa có brand nào</h3>
+    <p>Hãy thêm brand mới để bắt đầu</p>
+  </div>
+
+  <!-- Brands Table -->
+  <div *ngIf="!loading && brands.length > 0" class="table-container">
+    <table class="brands-table">
+      <thead>
+        <tr>
+          <th class="col-id">ID</th>
+          <th class="col-logo">Logo</th>
+          <th class="col-name">Tên Brand</th>
+          <th class="col-description">Mô Tả</th>
+          <th class="col-status">Trạng Thái</th>
+          <th class="col-actions">Hành Động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let brand of filteredBrands" class="brand-row">
+          <td class="col-id"><span class="id-badge">{{ brand.id }}</span></td>
+          <td class="col-logo">
+            <div class="logo-preview">
+              <img *ngIf="brand.logo_url" [src]="brand.logo_url" [alt]="brand.name" class="logo-img" />
+              <div *ngIf="!brand.logo_url" class="logo-placeholder">📷</div>
+            </div>
+          </td>
+          <td class="col-name">{{ brand.name }}</td>
+          <td class="col-description" [title]="brand.description">
+            {{ brand.description ? (brand.description | slice:0:50) + (brand.description.length > 50 ? '...' : '') : '-' }}
+          </td>
+          <td class="col-status">
+            <button
+              class="status-toggle"
+              [ngClass]="getStatusBadgeClass(brand.status)"
+              (click)="toggleStatus(brand)"
+              [disabled]="loading"
+              [title]="brand.status ? 'Click để ẩn' : 'Click để hiển thị'">
+              <span class="status-dot"></span>
+              {{ getStatusText(brand.status) }}
+            </button>
+          </td>
+          <td class="col-actions">
+            <button class="btn btn-sm btn-edit" (click)="openEditModal(brand)" [disabled]="loading">✎ Sửa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredBrands.length === 0 && !loading && searchQuery" class="no-result-container">
+    <div class="no-result-content">
+      <i class="fa-solid fa-box-open no-result-icon"></i>
+      <p class="no-result-text">Không tìm thấy Brand nào khớp với: <strong>"{{ searchQuery }}"</strong></p>
+      <button class="btn-clear" (click)="searchQuery = ''">Xem tất cả brand</button>
+    </div>
+  </div>
+  </div>
+
+  <!-- Modal Form -->
+  <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">{{ modalTitle }}</h2>
+        <button class="modal-close" (click)="closeModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="isAddMode ? addForm : editForm">
+          <div *ngIf="!isAddMode" class="form-group">
+            <label class="form-label">ID</label>
+            <input type="text" class="form-control" [value]="editingId" readonly />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Tên Brand</label>
+            <input type="text" class="form-control" formControlName="name" placeholder="Nhập tên brand" />
+            <small class="form-error" *ngIf="(isAddMode ? addForm : editForm).get('name')?.invalid && (isAddMode ? addForm : editForm).get('name')?.touched">
+              Tên brand là bắt buộc và phải có từ 2 ký tự trở lên
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mô Tả</label>
+            <textarea class="form-control form-textarea" formControlName="description" placeholder="Nhập mô tả brand" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">URL Logo</label>
+            <input type="text" class="form-control" formControlName="logo_url" placeholder="https://example.com/logo.png" />
+            <div class="logo-preview-form" *ngIf="(isAddMode ? addForm : editForm).get('logo_url')?.value">
+              <img [src]="(isAddMode ? addForm : editForm).get('logo_url')?.value" alt="Logo preview" class="logo-preview-img" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Thứ Tự Hiển Thị</label>
+            <input type="number" class="form-control" formControlName="sort_order" placeholder="0" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Trạng Thái</label>
+            <div class="form-checkbox">
+              <input type="checkbox" id="status" formControlName="status" />
+              <label for="status" class="checkbox-label">Hiển thị brand này</label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()" [disabled]="loading">Hủy</button>
+        <button class="btn btn-primary" (click)="saveBrand()" [disabled]="loading">
+          <span *ngIf="!loading">{{ isAddMode ? 'Thêm Brand' : 'Cập Nhật' }}</span>
+          <span *ngIf="loading">Đang xử lý...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<main class="checkout2-figma" *ngIf="!isLoading(); else loadingTpl">
+
+    <!-- Hiển thị lỗi nếu không tìm thấy đơn -->
+    <div *ngIf="error()" class="error-container">
+        <div class="checkout2-figma__icon-wrap error">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <h1 class="checkout2-figma__title">Rất tiếc!</h1>
+        <p class="checkout2-figma__desc">{{ error() }}</p>
+        <a routerLink="/" class="checkout2-figma__btn">Quay lại trang chủ</a>
+    </div>
+
+    <!-- Nội dung chính khi đơn hàng load thành công -->
+    <ng-container *ngIf="order()">
+        <div class="checkout2-figma__header">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <h1 class="checkout2-figma__title">Đặt hàng thành công!</h1>
+            <p class="checkout2-figma__desc">Tuyệt vời! Đơn hàng của bạn đã được hệ thống tiếp nhận.<br>Một email xác nhận đã được gửi đến <strong>{{ order().user?.email }}</strong>.</p>
+            <div class="checkout2-figma__order-ref">Mã đơn hàng: <span class="highlight">#{{ order().order_code }}</span></div>
+        </div>
+
+        <div class="checkout2-figma__grid">
+            <!-- Cột Trái: Danh sách sản phẩm trong đơn -->
+            <div class="checkout2-figma__card">
+                <h3 class="checkout2-figma__card-title">Chi tiết đơn hàng</h3>
+                <div class="checkout2-figma__items">
+                    <div class="checkout2-figma__item" *ngFor="let item of order().items">
+                        <img [src]="item.variant?.product?.image_primary || 'https://via.placeholder.com/80'"
+                            class="checkout2-figma__item-img"
+                            (error)="$any($event.target).src='https://via.placeholder.com/80'">
+                        <div class="checkout2-figma__item-info">
+                            <div class="checkout2-figma__item-name">{{ item.variant?.product?.name }}</div>
+                            <div class="checkout2-figma__item-variant">
+                                {{ item.variant?.variant_options || 'Mặc định' }}
+                            </div>
+                            <div class="checkout2-figma__item-qty">Số lượng: {{ item.quantity }}</div>
+                        </div>
+                        <div class="checkout2-figma__item-price">
+                            {{ (item.price * item.quantity) | number:'1.0-0' }}₫
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout2-figma__summary">
+                    <div class="checkout2-figma__summary-row">
+                        <span>Tạm tính</span>
+                        <span>{{ order().items_total_price || 0 | number:'1.0-0' }}₫</span>
+                    </div>
+                    <div class="checkout2-figma__summary-row">
+                        <span>Phí vận chuyển</span>
+                        <span>{{ order().shipping_fee > 0 ? (order().shipping_fee | number:'1.0-0') + '₫' : 'Miễn phí'
+                            }}</span>
+                    </div>
+                    <div class="checkout2-figma__summary-row total">
+                        <span>Tổng cộng</span>
+                        <span>{{ (order().items_total_price + (order().shipping_fee || 0)) | number:'1.0-0' }}₫</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột Phải: Thông tin khách hàng -->
+            <div class="checkout2-figma__card">
+                <h3 class="checkout2-figma__card-title">Thông tin nhận hàng</h3>
+                <div class="checkout2-figma__info-block">
+                    <div class="checkout2-figma__info-label">Người nhận</div>
+                    <div class="checkout2-figma__info-content">
+                        <strong>{{ order().shipping_name }}</strong><br>
+                        {{ order().shipping_phone }}<br>
+                        {{ order().user?.email }}
+                    </div>
+                </div>
+                <div class="checkout2-figma__info-block">
+                    <div class="checkout2-figma__info-label">Địa chỉ giao hàng</div>
+                    <div class="checkout2-figma__info-content">{{ order().shipping_address }}</div>
+                </div>
+                <div class="checkout2-figma__info-block">
+                    <div class="checkout2-figma__info-label">Phương thức thanh toán</div>
+                    <div class="checkout2-figma__info-content">
+                        {{ order().payment_method === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản an toàn
+                        (PayOS)' }}
+                    </div>
+                </div>
+                <a routerLink="/" class="checkout2-figma__btn">Tiếp tục mua sắm</a>
+            </div>
+        </div>
+    </ng-container>
+</main>
+
+<!-- Loading State -->
+<ng-template #loadingTpl>
+    <div class="loading-full">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <p>Đang tải thông tin đơn hàng...</p>
+    </div>
+</ng-template>

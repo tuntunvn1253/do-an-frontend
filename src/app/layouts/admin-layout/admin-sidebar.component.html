@@ -1,0 +1,66 @@
+<aside class="admin-sidebar">
+  <div class="sidebar-brand">
+    <img class="sidebar-brand__logo" src="https://www.figma.com/api/mcp/asset/b95e13a4-38a3-4de3-b813-902c96d7e6b2" alt="CNC HUB" />
+    <div class="sidebar-brand__title">
+      <h1>CNC HUB</h1>
+      <span>Admin</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a routerLink="/admin/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-house"></i></span>
+      <span class="sidebar-nav__text">Dashboard</span>
+    </a>
+    <a routerLink="/admin/products" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-box-open"></i></span>
+      <span class="sidebar-nav__text">Sản phẩm</span>
+    </a>
+    <a routerLink="/admin/categories" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-list"></i></span>
+      <span class="sidebar-nav__text">Danh mục</span>
+    </a>
+    <a routerLink="/admin/orders" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-cart-shopping"></i></span>
+      <span class="sidebar-nav__text">Đơn hàng</span>
+    </a>
+    <a routerLink="/admin/users" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-users"></i></span>
+      <span class="sidebar-nav__text">Người dùng</span>
+    </a>
+    <a routerLink="/admin/coupons" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-ticket"></i></span>
+      <span class="sidebar-nav__text">Mã giảm giá</span>
+    </a>
+    <a routerLink="/admin/brands" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-tags"></i></span>
+      <span class="sidebar-nav__text">Nhãn hàng</span>
+    </a>
+    <a routerLink="/admin/banners" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-image"></i></span>
+      <span class="sidebar-nav__text">Banner</span>
+    </a>
+    
+    <a routerLink="/admin/reports" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-chart-line"></i></span>
+      <span class="sidebar-nav__text">Báo cáo</span>
+    </a>
+    <a routerLink="/admin/settings" routerLinkActive="active" class="sidebar-nav__link">
+      <span class="sidebar-nav__icon"><i class="fa-solid fa-gear"></i></span>
+      <span class="sidebar-nav__text">Cài đặt</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-footer__label">Phiên</div>
+    <div class="sidebar-footer__status">
+      <span class="status-dot"></span>
+      <span>Đang hoạt động</span>
+    </div>
+    <div class="sidebar-footer__help">
+      <a href="#">
+        <i class="fa-solid fa-circle-info"></i> Hướng dẫn
+      </a>
+    </div>
+  </div>
+</aside>

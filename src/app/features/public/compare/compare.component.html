@@ -1,0 +1,39 @@
+<div class="compare-trigger" *ngIf="compareService.count() > 0" (click)="toggleModal()">
+    <span class="badge">{{ compareService.count() }}</span>
+    <i class="fas fa-balance-scale"></i>
+</div>
+
+<div class="compare-overlay" *ngIf="compareService.showModal() && products().length > 0" (click)="toggleModal()">
+    <div class="compare-window" (click)="$event.stopPropagation()">
+        <div class="compare-header">
+            <h3>So sánh sản phẩm</h3>
+            <button class="close-btn" (click)="toggleModal()">✕</button>
+        </div>
+
+        <div class="compare-body">
+            <div class="compare-table">
+                <div class="compare-col labels-col">
+                    <div class="cell head">Sản phẩm</div>
+                    <div class="cell">Giá bán</div>
+                    <div class="cell">Thương hiệu</div>
+                    <div class="cell">Chi tiết thông số</div>
+                </div>
+
+                <div class="compare-col product-col" *ngFor="let p of products()">
+                    <div class="cell head">
+                        <button class="remove-item" (click)="compareService.remove(p.id)">✕</button>
+                        <img [src]="p.image_primary" 
+                             (error)="$any($event.target).src = 'assets/images/no-image.png'" 
+                             class="compare-img">
+                        <p class="p-name">{{ p.name }}</p>
+                    </div>
+                    <div class="cell price">
+                        {{ (p.sale_price || p.price) | number }}₫
+                    </div>
+                    <div class="cell">{{ p.brand?.name || '---' }}</div>
+                    <div class="cell specs" [innerHTML]="p.displaySpecs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

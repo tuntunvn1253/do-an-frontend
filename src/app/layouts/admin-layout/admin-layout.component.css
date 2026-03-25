@@ -1,0 +1,36 @@
+/* 1. Khung tổng chiếm toàn bộ màn hình */
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* 2. Sửa Selector từ .admin-sidebar thành tên thẻ app-admin-sidebar */
+app-admin-sidebar {
+  width: 250px;
+  /* Tăng độ rộng lên một chút cho đẹp */
+  background: #1f2937;
+  color: #f8fafc;
+  flex-shrink: 0;
+  /* Đảm bảo sidebar không bị bóp méo */
+}
+
+/* 3. QUAN TRỌNG: Khối Main phải có flex: 1 */
+.admin-main {
+  flex: 1;
+  /* Lệnh này giúp nó chiếm toàn bộ phần bên phải */
+  display: flex;
+  flex-direction: column;
+  /* Để Topbar ở trên, Content ở dưới */
+  min-width: 0;
+  /* Chống vỡ layout khi nội dung con quá rộng */
+}
+
+/* 4. Vùng nội dung đổ từ Router */
+.admin-content {
+  flex: 1;
+  padding: 1.5rem;
+  background: #f3f4f6;
+  overflow-y: auto;
+  /* Cho phép cuộn dọc nếu nội dung dài */
+}

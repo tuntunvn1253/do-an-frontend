@@ -1,0 +1,95 @@
+<footer class="footer-figma">
+    <div class="footer-figma__top">
+
+        <!-- Thanh Bar trên cùng -->
+        <div class="footer-figma__bar footer-figma__bar--blue">
+            <span class="footer-figma__bar-text">CNC HUB LUÔN LẮNG NGHE BẠN</span>
+            <button class="footer-figma__bar-btn">Đánh giá ngay</button>
+        </div>
+        <div class="footer-figma__bar footer-figma__bar--purple">
+            <span class="footer-figma__bar-text">ĐĂNG KÝ LIỀN TAY NHẬN NGAY VOUCHER 150K</span>
+            <button class="footer-figma__bar-btn footer-figma__bar-btn--blue">Đăng ký ngay</button>
+        </div>
+
+        <!-- Khối nội dung chính -->
+        <div class="footer-figma__main">
+            <!-- Cột 1 -->
+            <div class="footer-figma__col">
+                <div class="footer-figma__col-title">CÔNG TY TNHH 5TV THƯƠNG MẠI CẦU LÔNG TỔNG HỢP (GTF)</div>
+                <div class="footer-figma__col-text">Văn phòng: QTSC 9 Building, Đ. Tô Ký, Tân Chánh Hiệp, Quận 12, Thành
+                    phố Hồ Chí Minh, Việt Nam</div>
+                <div class="footer-figma__col-text">Địa chỉ kho: QTSC 9 Building, Đ. Tô Ký, Tân Chánh Hiệp, Quận 12,
+                    Thành phố Hồ Chí Minh, Việt Nam</div>
+                <div class="footer-figma__col-text">Tổng đài: 035318625</div>
+            </div>
+
+            <!-- Cột 2 -->
+            <div class="footer-figma__col">
+                <div class="footer-figma__col-title">VỀ CNC HUB</div>
+                <ul class="footer-figma__list">
+                    <li><a routerLink="/" class="footer-figma__link">Giới thiệu</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Hệ thống cửa hàng</a></li>
+                    <li><a routerLink="/contact" class="footer-figma__link">Thông tin liên hệ</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Các điều khoản và điều kiện</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Hợp tác cùng chúng tôi</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 3 -->
+            <div class="footer-figma__col">
+                <div class="footer-figma__col-title">Hỗ trợ khách hàng</div>
+                <ul class="footer-figma__list">
+                    <li><a routerLink="/" class="footer-figma__link">Chính sách giao hàng</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Chính sách đổi trả hàng - Bảo hành</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Chính sách trả góp</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Chính sách bảo mật</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Hỗ trợ và giải đáp thắc mắc</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Hướng dẫn mua hàng</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Hướng dẫn chọn size</a></li>
+                    <li><a routerLink="/" class="footer-figma__link">Tra cứu đơn hàng</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 4 -->
+            <div class="footer-figma__col">
+                <div class="footer-figma__col-title">DANH MỤC SẢN PHẨM</div>
+                <ul class="footer-figma__list">
+                    <li *ngFor="let category of categories()">
+                        <a [routerLink]="['/products']" 
+                           [queryParams]="{ category_slug: category.slug }"
+                           class="footer-figma__link">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Cột 5 -->
+            <div class="footer-figma__col">
+                <div class="footer-figma__col-title">THƯƠNG HIỆU</div>
+                <ul class="footer-figma__list">
+                    <li *ngFor="let brand of brands()">
+                        <a [routerLink]="['/products']" 
+                           [queryParams]="{ brand_name: brand.name }"
+                           class="footer-figma__link">
+                            {{ brand.name }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Cột 6 -->
+            <div class="footer-figma__col">
+                <div class="footer-figma__col-title">Doanh nghiệp</div>
+                <ul class="footer-figma__list">
+                    <li><a routerLink="/" class="footer-figma__link">GO! Việt Nam</a></li>
+                </ul>
+                <div class="footer-figma__col-title footer-figma__col-title--mt">PHƯƠNG THỨC THANH TOÁN</div>
+                <div class="footer-figma__payment-img">
+                    <img src="https://www.figma.com/api/mcp/asset/65752788-bad4-4155-ad2f-743694ed3852"
+                        alt="Phương thức thanh toán" />
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

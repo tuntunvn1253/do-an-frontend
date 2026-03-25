@@ -1,0 +1,115 @@
+/* --- STYLE DÀNH RIÊNG CHO FORM PROFILE --- */
+
+.content__title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #12283e;
+  margin: 0 0 32px 0;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.content__form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #12283e;
+}
+
+.form-input {
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  color: #1b1b1b;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.form-input:focus {
+  border-color: #7367f0;
+}
+
+.form-input[readonly] {
+  background-color: #f7f7f7;
+  cursor: not-allowed;
+}
+
+select.form-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231b1b1b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px top 50%;
+  background-size: 10px auto;
+}
+
+.content__save-btn {
+  background: #12283e;
+  color: #77e51f;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 32px;
+  transition: background 0.2s;
+  display: inline-block;
+}
+
+.content__save-btn:hover:not(:disabled) {
+  background: #1b3a5a;
+}
+
+.content__save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- THÔNG BÁO ALERT --- */
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.alert-error {
+  background-color: #ffe0e0;
+  color: #d23e3e;
+  border-left: 4px solid #d23e3e;
+}
+
+.alert-success {
+  background-color: #e0ffe0;
+  color: #2d8c2d;
+  border-left: 4px solid #77e51f;
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 600px) {
+  .content__form-grid {
+    grid-template-columns: 1fr;
+  }
+}

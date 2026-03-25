@@ -1,0 +1,629 @@
+/*  BANNER CAROUSEL  */
+.banner-carousel {
+    position: relative;
+    height: 634px;
+    background-color: var(--light-color);
+    overflow: hidden;
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.carousel-item.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    color: #004e89;
+    font-size: 24px;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-control:hover {
+    background-color: #77E51F;
+    color: white;
+}
+
+.carousel-control.prev-btn {
+    left: 20px;
+}
+
+.carousel-control.next-btn {
+    right: 20px;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s;
+}
+
+.indicator.active {
+    background-color: #77E51F;
+    transform: scale(1.2);
+}
+
+/*  DANH MỤC SẢN PHẨM  */
+.categories-section {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+.section-heading {
+    font-size: 27px;
+    font-weight: 700;
+    color: #12283e;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.category-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 27px;
+    padding: 20px 0;
+    width: 100%;
+}
+
+.category-card {
+    background-color: #f2f2f2;
+    display: flex;
+    gap: 20px;
+    padding: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    align-items: center;
+    min-height: 140px;
+    transition: all 0.3s;
+}
+
+.category-card:hover {
+    background-color: #e8e8e8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-image {
+    width: 120px;
+    height: 115px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    flex-shrink: 0;
+}
+
+.category-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.category-info {
+    flex: 1;
+    text-align: center;
+    color: #1b1b1b;
+    font-weight: 600;
+}
+
+/*  HÀNG MỚI VỀ  */
+.hang-moi-ve-section {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.hang-moi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.hang-moi-title {
+    font-size: 27px;
+    font-weight: 700;
+    color: #12283e;
+    margin: 0;
+}
+
+.carousel-nav-buttons button {
+    background: white;
+    border: 1px solid #ddd;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.carousel-nav-buttons button:hover {
+    background: #77E51F;
+    color: white;
+}
+
+.hang-moi-view-all {
+    font-weight: 700;
+    color: #1b1b1b;
+    text-decoration: none;
+}
+
+.hang-moi-view-all:hover {
+    color: #77E51F;
+}
+
+/* Ẩn thanh cuộn nhưng vẫn cho lướt ngang */
+.hang-moi-carousel {
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hang-moi-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.hang-moi-track {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    padding-bottom: 20px;
+}
+
+.hang-moi-card {
+    width: 341px;
+    height: 499px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s;
+}
+
+.hang-moi-card:hover {
+    transform: translateY(-5px);
+}
+
+.hang-moi-img-wrap {
+    width: 321px;
+    height: 321px;
+    margin: 10px auto 0;
+    position: relative;
+}
+
+.hang-moi-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.hang-moi-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #77E51F;
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.hang-moi-info {
+    padding: 20px;
+}
+
+.hang-moi-brand {
+    font-size: 12.6px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.hang-moi-name {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    height: 40px;
+    overflow: hidden;
+}
+
+.hang-moi-price {
+    font-size: 17.5px;
+    color: #d70018;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+/*  BANNER GIỮA TRANG  */
+.figma-banner-section {
+    padding: 48px 0;
+    background: #fff;
+}
+
+.figma-banner-img-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+.figma-banner-img-wrap img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/*  SẢN PHẨM NỔI BẬT  */
+.featured-products-section,
+.sale-products-section {
+    padding: 55px 0;
+    background: #fff;
+}
+
+.featured-products-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 28px;
+    margin-top: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: inherit;
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-5px);
+}
+
+.product-image-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative; /* Added for badge positioning */
+}
+
+.product-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.badge.sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #d70018;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.product-variants {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    height: 20px;
+}
+
+.variant {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.variant-more {
+    font-size: 12px;
+    font-weight: bold;
+    background: #eee;
+    padding: 0 5px;
+    border-radius: 10px;
+    line-height: 18px;
+}
+
+.product-brand {
+    font-size: 12px;
+    color: #888;
+}
+
+.product-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 5px 0 10px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* Default price color */
+}
+
+.product-price .sale-price {
+    color: #d70018; /* Red for emphasis */
+    margin-right: 8px;
+}
+
+.product-price .original-price {
+    color: #888; /* Lighter color */
+    text-decoration: line-through;
+    font-size: 0.9em;
+    font-weight: 400; /* Lighter weight */
+}
+
+
+.featured-products-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.view-all-btn {
+    display: inline-block;
+    padding: 12px 40px;
+    background: #12283e;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.view-all-btn:hover {
+    background: #7367f0;
+}
+
+/*  THƯƠNG HIỆU NỔI BẬT  */
+.featured-brands-section {
+    padding: 50px 0;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+.featured-brands-grid {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.brand-img-wrap {
+    background: #fff;
+    border-radius: 12px;
+    height: 114px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: 0.2s;
+}
+
+.brand-img-wrap:hover {
+    transform: scale(1.03);
+}
+
+.brand-img-wrap img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+/*  TIN TỨC  */
+.news-section-figma {
+    background: #f9f9f9;
+    padding: 60px 0;
+}
+
+.news-section-figma__filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.news-section-figma__filter {
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.news-section-figma__filter--active,
+.news-section-figma__filter:hover {
+    background: #12283e;
+    color: #fff;
+    border-color: #12283e;
+}
+
+.news-section-figma__grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.news-section-figma__item {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 24%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+}
+
+.news-section-figma__item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.news-section-figma__img-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.news-section-figma__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+.news-section-figma__item:hover .news-section-figma__img-wrap img {
+    transform: scale(1.05);
+}
+
+.news-section-figma__info {
+    padding: 20px;
+}
+
+.news-section-figma__title {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.news-section-figma__more {
+    color: #12283e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.news-section-figma__more:hover {
+    color: #7367f0;
+}
+
+.news-section-figma__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.news-section-figma__all-btn {
+    background: #12283e;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.news-section-figma__all-btn:hover {
+    background: #7367f0;
+}
+
+/* Responsive cơ bản */
+@media (max-width: 1200px) {
+
+    .category-row,
+    .featured-products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .news-section-figma__grid {
+        flex-wrap: wrap;
+    }
+
+    .news-section-figma__item {
+        width: 48%;
+    }
+
+    .featured-brands-grid {
+        flex-wrap: wrap;
+    }
+
+    .brand-col {
+        min-width: 30%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .category-row,
+    .featured-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .news-section-figma__item {
+        width: 100%;
+    }
+
+    .brand-col {
+        min-width: 45%;
+    }
+}

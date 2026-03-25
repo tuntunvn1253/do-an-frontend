@@ -1,0 +1,32 @@
+<main class="user-page-figma">
+    <div class="user-page__container">
+ 
+        <aside class="user-page__sidebar">
+            <h2 class="sidebar__title">Xin chào, {{ user()?.full_name || 'Người dùng' }}!</h2>
+            <ul class="sidebar__nav">
+                <li>
+                    <a routerLink="/user/profile" routerLinkActive="sidebar__nav-item--active"
+                        class="sidebar__nav-item">
+                        Thông tin tài khoản
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/user/orders" routerLinkActive="sidebar__nav-item--active" class="sidebar__nav-item">
+                        Quản lý đơn hàng
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/user/addresses" routerLinkActive="sidebar__nav-item--active"
+                        class="sidebar__nav-item">
+                        Sổ địa chỉ
+                    </a>
+                </li>
+            </ul>
+            <button (click)="logout()" class="sidebar__logout-btn">Đăng xuất</button>
+        </aside>
+
+        <section class="user-page__content">
+            <router-outlet></router-outlet>
+        </section>
+    </div>
+</main>

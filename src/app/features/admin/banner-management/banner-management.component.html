@@ -1,0 +1,115 @@
+<div class="banner-management-container">
+  <div class="header-section">
+    <div class="header-content">
+      <div class="title-group">
+        <h1 class="page-title">Quản Lý Banner</h1>
+        <p class="page-subtitle">Quản lý hình ảnh quảng cáo và slider trang chủ</p>
+      </div>
+      <button class="btn btn-primary" (click)="openModal()">
+        <span class="icon">+</span> Thêm Banner Mới
+      </button>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <div class="search-box">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Tìm kiếm banner theo vị trí hoặc tiêu đề..."
+        [(ngModel)]="searchQuery"
+      />
+      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+    </div>
+    <span class="search-count">{{ filteredBanners.length }} banner</span>
+  </div>
+  
+
+  <div class="table-container" *ngIf="!loading">
+    <table class="banners-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Hình Ảnh</th>
+          <th>Vị Trí</th>
+          <th>Liên Kết</th>
+          <th>Trạng Thái</th>
+          <th style="text-align: center;">Hành Động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let banner of filteredBanners" class="banner-row">
+          <td><span style="background: #f0f2f5; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: 600;">{{ banner.id }}</span></td>
+          <td>
+            <div class="banner-preview">
+              <img [src]="banner.image_url" class="banner-img" alt="banner">
+            </div>
+          </td>
+          <td><strong style="color: #2c3e50;">{{ banner.position }}</strong></td>
+          <td><small style="color: #7f8c8d;">{{ banner.link_url || '-' }}</small></td>
+          <td>
+            <button class="status-toggle" 
+                    [ngClass]="banner.is_active ? 'badge-active' : 'badge-inactive'"
+                    (click)="toggleActive(banner)">
+              <span class="status-dot"></span>
+              {{ banner.is_active ? 'Hoạt động' : 'Đang ẩn' }}
+            </button>
+          </td>
+          <td style="text-align: center;">
+            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.8rem;" (click)="openModal(banner)">✎ Sửa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredBanners.length === 0 && !loading" class="no-result-container">
+    <div class="no-result-content">
+      <i class="fa-solid fa-magnifying-glass-minus no-result-icon"></i>
+      <p class="no-result-text">Không tìm thấy banner nào khớp với từ khóa <strong>"{{ searchQuery }}"</strong></p>
+      <button class="btn-clear" (click)="searchQuery = ''">Xem tất cả banner</button>
+    </div>
+  </div>
+
+  <div *ngIf="showModal" class="modal-overlay" (click)="showModal = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header" style="padding: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; display: flex; justify-content: space-between;">
+        <h2 style="margin: 0;">{{ isAddMode ? 'Thêm Banner' : 'Cập Nhật Banner' }}</h2>
+        <button (click)="showModal = false" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.5rem;">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 2rem;">
+        <form [formGroup]="bannerForm">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">URL Hình Ảnh *</label>
+            <input type="text" class="form-control" formControlName="image_url" style="width: 100%; padding: 0.75rem; border: 2px solid #e8eef5; border-radius: 8px;" placeholder="https://...">
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Link Liên Kết</label>
+            <input type="text" class="form-control" formControlName="link_url" style="width: 100%; padding: 0.75rem; border: 2px solid #e8eef5; border-radius: 8px;" placeholder="/khuyen-mai">
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+            <div style="flex: 1;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Vị Trí</label>
+              <select formControlName="position" style="width: 100%; padding: 0.75rem; border: 2px solid #e8eef5; border-radius: 8px;">
+                <option value="home_slider">Home Slider</option>
+                <option value="home_middle">Home Middle</option>
+                <option value="sidebar_ads">Sidebar Ads</option>
+              </select>
+            </div>
+            <div style="flex: 1;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Thứ Tự</label>
+              <input type="number" formControlName="sort_order" style="width: 100%; padding: 0.75rem; border: 2px solid #e8eef5; border-radius: 8px;">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer" style="padding: 1.5rem; background: #f8fafb; display: flex; justify-content: flex-end; gap: 1rem;">
+        <button class="btn" style="background: #e8eef5;" (click)="showModal = false">Hủy</button>
+        <button class="btn btn-primary" (click)="saveBanner()">Lưu Thay Đổi</button>
+      </div>
+    </div>
+  </div>
+</div>

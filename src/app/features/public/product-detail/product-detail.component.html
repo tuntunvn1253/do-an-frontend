@@ -1,0 +1,112 @@
+<div *ngIf="loading()" class="loading">Đang tải chi tiết sản phẩm...</div>
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<main id="detail-main" class="detail-main" *ngIf="!loading() && !error() && product()">
+    <div class="detail-content">
+        <!-- CỘT TRÁI -->
+        <section class="product-gallery">
+            <div class="product-gallery__main">
+                <img class="product-gallery__main-img" [src]="product()?.image_primary" />
+            </div>
+            <div class="product-gallery__thumbs">
+                <img class="product-gallery__thumb product-gallery__thumb--active"
+                    [src]="product()?.image_primary || ''" alt="Thumb 1"
+                    (error)="$event.target.src='https://via.placeholder.com/80'" />
+            </div>
+        </section>
+
+        <!-- CỘT PHẢI -->
+        <section class="product-info">
+            <div class="product-info__header">
+                <div class="product-info__brand">
+                    {{ product()?.brand?.name || 'Thương hiệu mặc định' }}
+                </div>
+
+                <button class="btn-compare-mini" (click)="onCompare()">
+                    <i class="fas fa-exchange-alt"></i> <span>So sánh</span>
+                </button>
+            </div>
+            <h1 class="product-info__title">{{ product()?.name }}</h1>
+            <div class="product-info__sku">SKU {{ product()?.sku }}</div>
+
+            <!-- Giá hiển thị: Cập nhật theo variant được chọn -->
+            <div class="product-info__price">
+              {{ (selectedVariant()?.price || product()?.price || 0) | number: '1.0-0' }}₫
+            </div>
+
+            <div class="product-info__option-group" *ngIf="product()?.variants && product()!.variants!.length > 0">
+                <div class="product-info__option-label">Chọn phiên bản</div>
+                <div class="product-info__variant-list">
+                    <button 
+                        *ngFor="let v of product()?.variants" 
+                        class="product-info__variant-item"
+                        [class.active]="selectedVariantId() === v.id"
+                        [class.out-of-stock]="v.stock_quantity <= 0"
+                        [disabled]="v.stock_quantity <= 0"
+                        (click)="selectVariant(v.id!)"
+                    >
+                        {{ getVariantLabel(v.variant_options) }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hiển thị tồn kho -->
+            <div class="product-info__stock" *ngIf="selectedVariant()">
+                Tình trạng: 
+                <span [style.color]="selectedVariant()!.stock_quantity > 0 ? '#27ae60' : '#e74c3c'">
+                    {{ selectedVariant()!.stock_quantity > 0 ? 'Còn hàng (' + selectedVariant()!.stock_quantity + ')' : 'Hết hàng' }}
+                </span>
+            </div>
+
+            <!-- Điều khiển số lượng -->
+            <div class="product-info__quantity-group">
+                <label class="product-info__quantity-label">Số lượng</label>
+                <div class="product-info__quantity-controls">
+                    <button class="product-info__quantity-btn" (click)="updateQuantity(-1)">-</button>
+                    <span class="product-info__quantity-value">{{ quantity() }}</span>
+                    <button class="product-info__quantity-btn" (click)="updateQuantity(1)">+</button>
+                </div>
+            </div>
+
+            <div class="product-info__actions">
+                <!-- === ĐÃ GẮN SỰ KIỆY MUA NGAY === -->
+                <button class="product-info__buy-now" (click)="buyNow()">Mua ngay</button>
+                <button class="product-info__add-cart" (click)="handleAddToCart()">Thêm vào giỏ hàng</button>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- TABS MÔ TẢ -->
+    <section class="product-desc">
+        <div class="product-desc__tabs">
+            <span class="product-desc__tab" [ngClass]="{ 'product-desc__tab--active': activeTab() === 'description' }"
+                (click)="setActiveTab('description')">MÔ TẢ SẢN PHẨM</span>
+            <span class="product-desc__tab" [ngClass]="{ 'product-desc__tab--active': activeTab() === 'cleaning' }"
+                (click)="setActiveTab('cleaning')">HƯỚNG DẪN VỆ SINH</span>
+            <span class="product-desc__tab" [ngClass]="{ 'product-desc__tab--active': activeTab() === 'care' }"
+                (click)="setActiveTab('care')">HƯỚNG DẪN BẢO QUẢN</span>
+        </div>
+        <div class="product-desc__content">
+            <div *ngIf="activeTab() === 'description'">
+                <h2 class="product-desc__title">{{ product()?.name }}</h2>
+                <div class="product-desc__text" [innerHTML]="product()?.description || 'Đang cập nhật mô tả...'"></div>
+            </div>
+            <div *ngIf="activeTab() === 'cleaning'" [innerHTML]="cleaningGuide.content"></div>
+            <div *ngIf="activeTab() === 'care'" [innerHTML]="careGuide.content"></div>
+        </div>
+    </section>
+
+    <!-- MODAL SO SÁNH SẢN PHẨM -->
+    <div class="compare-modal-overlay" *ngIf="showCompare()" (click)="toggleCompare()">
+        <div class="compare-modal" (click)="$event.stopPropagation()">
+            <button class="compare-modal__close" (click)="toggleCompare()">&times;</button>
+            <div class="compare-modal__header">
+                <h2>So sánh sản phẩm</h2>
+            </div>
+            <div class="compare-modal__body">
+                <app-compare></app-compare>
+            </div>
+        </div>
+    </div>
+</main>

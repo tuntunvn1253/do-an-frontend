@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    color: #1b1b1b;
+}
+
+.user-page-figma {
+    max-width: 1440px;
+    margin: 48px auto;
+    padding: 0 20px;
+}
+
+.user-page__container {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+/* Sidebar */
+.user-page__sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+    padding: 32px;
+}
+
+.sidebar__title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #12283e;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.sidebar__nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Các thẻ Menu */
+.sidebar__nav-item {
+    display: block;
+    text-decoration: none;
+    color: #515151;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.sidebar__nav-item:hover {
+    background-color: #f7f7f7;
+    color: #12283e;
+}
+
+/* Áp dụng bằng routerLinkActive tự động */
+.sidebar__nav-item--active {
+    background-color: #12283e !important;
+    color: #77e51f !important;
+}
+
+.sidebar__logout-btn {
+    width: 100%;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+    background: none;
+    border: none;
+    text-align: left;
+    color: #ff3c00;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.sidebar__logout-btn:hover {
+    opacity: 0.8;
+}
+
+/* Nội dung chung (Chứa Router Outlet) */
+.user-page__content {
+    flex: 1;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+    padding: 32px;
+    min-height: 500px;
+}
+
+@media (max-width: 900px) {
+    .user-page__container {
+        flex-direction: column;
+    }
+
+    .user-page__sidebar {
+        width: 100%;
+    }
+}

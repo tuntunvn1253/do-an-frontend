@@ -1,0 +1,40 @@
+<h1 class="content__title">Thông tin tài khoản</h1>
+
+<div *ngIf="loadingProfile()" class="loading-state">
+    <p>Đang tải thông tin...</p>
+</div>
+
+<div *ngIf="errorProfile()" class="alert alert-error">{{ errorProfile() }}</div>
+<div *ngIf="successProfile()" class="alert alert-success">Thông tin đã được cập nhật thành công!</div>
+
+<form *ngIf="!loadingProfile() && user()" (ngSubmit)="onSubmitProfile()">
+    <div class="content__form-grid">
+        <div class="form-group">
+            <label for="fullname" class="form-label">Họ và tên</label>
+            <input type="text" id="fullname" class="form-input" [(ngModel)]="fullName" name="fullName" required>
+        </div>
+        <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-input" [(ngModel)]="email" name="email" readonly
+                title="Không thể thay đổi email">
+        </div>
+        <div class="form-group">
+            <label for="phone" class="form-label">Số điện thoại</label>
+            <input type="tel" id="phone" class="form-input" [(ngModel)]="phone" name="phone"
+                placeholder="Nhập số điện thoại">
+        </div>
+        <div class="form-group">
+            <label for="gender" class="form-label">Giới tính</label>
+            <select id="gender" class="form-input" [(ngModel)]="gender" name="gender">
+                <option value="">-- Chọn giới tính --</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+                <option value="other">Khác</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="content__save-btn" [disabled]="savingProfile()">
+        {{ savingProfile() ? 'ĐANG LƯU...' : 'LƯU THAY ĐỔI' }}
+    </button>
+</form>

@@ -1,0 +1,69 @@
+<div class="content__header">
+    <h1 class="content__title">Sổ địa chỉ của bạn</h1>
+    <button *ngIf="!showForm()" class="btn-add-address" (click)="openAddForm()">
+        + Thêm địa chỉ mới
+    </button>
+</div>
+
+<!-- LOADING STATE -->
+<div *ngIf="loading()" class="loading-state">
+    <p>Đang tải danh sách địa chỉ...</p>
+</div>
+
+<!-- FORM THÊM/SỬA ĐỊA CHỈ -->
+<div *ngIf="showForm()" class="address-form-card">
+    <h3 class="form-title">{{ isEditMode() ? 'Sửa địa chỉ' : 'Thêm địa chỉ mới' }}</h3>
+    <form (ngSubmit)="saveAddress()" class="content__form-grid">
+        <div class="form-group">
+            <label class="form-label">Họ tên người nhận *</label>
+            <input type="text" class="form-input" [(ngModel)]="currentAddress.full_name" name="full_name" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Số điện thoại *</label>
+            <input type="tel" class="form-input" [(ngModel)]="currentAddress.phone" name="phone" required>
+        </div>
+
+        <div class="form-group form-group--full">
+            <label class="form-label">Địa chỉ chi tiết (Số nhà, đường, phường/xã, tỉnh/thành phố) *</label>
+            <textarea class="form-input" [(ngModel)]="currentAddress.address" name="address" rows="3"
+                required></textarea>
+        </div>
+
+        <div class="form-group form-group--full flex-row">
+            <input type="checkbox" id="is_default" [(ngModel)]="currentAddress.is_default" name="is_default">
+            <label for="is_default" class="checkbox-label">Đặt làm địa chỉ mặc định</label>
+        </div>
+
+        <div class="form-actions form-group--full">
+            <button type="button" class="btn-cancel" (click)="closeForm()">Trở lại</button>
+            <button type="submit" class="content__save-btn m-0">LƯU ĐỊA CHỈ</button>
+        </div>
+    </form>
+</div>
+
+<!-- DANH SÁCH ĐỊA CHỈ -->
+<div *ngIf="!loading() && !showForm()" class="address-list">
+    <div *ngIf="addresses().length === 0" class="empty-state">
+        <p>Bạn chưa có địa chỉ nào.</p>
+    </div>
+
+    <div *ngFor="let addr of addresses()" class="address-card" [class.address-card--default]="addr.is_default">
+        <div class="address-info">
+            <div class="address-name">
+                <span class="name">{{ addr.full_name }}</span>
+                <span *ngIf="addr.is_default" class="badge-default">Mặc định</span>
+            </div>
+            <div class="address-detail">
+                <p><strong>Điện thoại:</strong> {{ addr.phone }}</p>
+                <p><strong>Địa chỉ:</strong> {{ addr.address }}</p>
+            </div>
+        </div>
+        <div class="address-actions">
+            <button class="btn-text btn-edit" (click)="openEditForm(addr)">Sửa</button>
+            <button *ngIf="!addr.is_default" class="btn-text btn-delete" (click)="deleteAddress(addr.id)">Xóa</button>
+            <button *ngIf="!addr.is_default" class="btn-outline" (click)="setDefault(addr.id)">Thiết lập mặc
+                định</button>
+        </div>
+    </div>
+</div>

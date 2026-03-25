@@ -1,0 +1,44 @@
+<!-- Nút Bong Bóng -->
+<button class="ai-bubble" (click)="toggleChat()">
+    <i class="fa-solid fa-robot" *ngIf="!isOpen()"></i>
+    <i class="fa-solid fa-xmark" *ngIf="isOpen()"></i>
+</button>
+
+<!-- Khung Chat -->
+<div class="ai-window" *ngIf="isOpen()">
+    <div class="ai-header">
+        <span>Trợ Lý CNC HUB</span>
+    </div>
+
+    <div class="ai-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div *ngFor="let msg of messages" [ngClass]="msg.role === 'user' ? 'msg-user' : 'msg-ai'">
+            <div class="msg-bubble">{{ msg.text }}</div>
+
+            <!-- Phần hiển thị links dưới dạng Box chuyên nghiệp -->
+            <div *ngIf="msg.role === 'ai' && msg.links && msg.links.length > 0" class="link-container">
+                <div *ngFor="let link of msg.links" class="product-link-box" (click)="openLink(link.url)">
+                    <div class="link-content">
+                        <div class="link-indicator"></div>
+                        <div class="link-info">
+                            <div class="link-title">{{ link.title }}</div>
+                            <div class="link-url">{{ link.url }}</div>
+                        </div>
+                        <div class="link-icon">
+                            <i class="fa-solid fa-external-link-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Dots -->
+        <div *ngIf="isLoading()" class="msg-ai">
+            <div class="msg-bubble dots">...</div>
+        </div>
+    </div>
+
+    <div class="ai-footer">
+        <input type="text" [(ngModel)]="userMessage" (keyup.enter)="send()" placeholder="Nhập câu hỏi...">
+        <button (click)="send()"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>

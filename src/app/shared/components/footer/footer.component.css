@@ -1,0 +1,171 @@
+/* ============= FOOTER STYLES ============= */
+.footer-figma {
+    background: #fff;
+    border-top: 1px solid #f4f4f4;
+    font-family: 'Nunito Sans', sans-serif;
+    color: #1b1b1b;
+    margin-top: 0;
+    width: 100%;
+}
+
+.footer-figma__top {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.footer-figma__bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 44px;
+    width: 100%;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.footer-figma__bar--blue {
+    background: #12283e;
+    color: #fff;
+}
+
+.footer-figma__bar--purple {
+    background: #7367f0;
+    color: #fff;
+}
+
+.footer-figma__bar-text {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+.footer-figma__bar-btn {
+    background: #fff;
+    color: #12283e;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px 6px 10px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+
+.footer-figma__bar-btn--blue {
+    background: #12283e;
+    color: #fff;
+}
+
+.footer-figma__bar-btn:hover {
+    background: #f4f4f4;
+}
+
+.footer-figma__main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    width: 100%;
+    max-width: 1824px;
+    margin: 0 auto;
+    padding: 32px 0 40px 0;
+}
+
+.footer-figma__col {
+    width: 365px;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 15px;
+}
+
+.footer-figma__col-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #12283e;
+    margin-bottom: 4px;
+    margin-top: 0;
+    text-transform: uppercase;
+}
+
+.footer-figma__col-title--mt {
+    margin-top: 24px;
+}
+
+.footer-figma__col-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1b1b1b;
+    line-height: 18.2px;
+}
+
+.footer-figma__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.footer-figma__link {
+    color: #12283e;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    display: block;
+    padding: 6px 0 6px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+    transition: color 0.2s;
+}
+
+.footer-figma__link:hover {
+    color: #7367f0;
+}
+
+.footer-figma__payment-img {
+    margin-top: 8px;
+    width: 100%;
+    max-width: 334px;
+    height: 44px;
+    overflow: hidden;
+}
+
+.footer-figma__payment-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* ============= RESPONSIVE ============= */
+@media (max-width: 1200px) {
+    .footer-figma__main {
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 24px 0 40px 0;
+    }
+
+    .footer-figma__col {
+        width: 48%;
+        min-width: 180px;
+        padding: 0 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-figma__main {
+        flex-direction: column;
+        gap: 18px;
+        padding: 16px 0 40px 0;
+    }
+
+    .footer-figma__col {
+        width: 100%;
+        min-width: 0;
+        padding: 0 15px;
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/layouts/admin-layout/admin-layout.component.css"],
+  "sourcesContent": [".admin-shell {\r\n  display: flex;\r\n  min-height: 100vh;\r\n}\r\n\r\n.admin-sidebar {\r\n  width: 220px;\r\n  background: #1f2937;\r\n  color: #f8fafc;\r\n  padding: 1rem;\r\n}\r\n\r\n.admin-sidebar .logo {\r\n  font-weight: 700;\r\n  margin-bottom: 1rem;\r\n}\r\n\r\n.admin-sidebar nav a {\r\n  display: block;\r\n  padding: 0.6rem 0.8rem;\r\n  color: inherit;\r\n  text-decoration: none;\r\n  border-radius: 0.4rem;\r\n  margin-bottom: 0.4rem;\r\n}\r\n\r\n.admin-sidebar nav a.active,\r\n.admin-sidebar nav a:hover {\r\n  background: rgba(255, 255, 255, 0.12);\r\n}\r\n\r\n.admin-content {\r\n  flex: 1;\r\n  padding: 1.5rem;\r\n  background: #f3f4f6;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAC;AACC,WAAS;AACT,cAAY;AACd;AAEA,CAAC;AACC,SAAO;AACP,cAAY;AACZ,SAAO;AACP,WAAS;AACX;AAEA,CAPC,cAOc,CAAC;AACd,eAAa;AACb,iBAAe;AACjB;AAEA,CAZC,cAYc,IAAI;AACjB,WAAS;AACT,WAAS,OAAO;AAChB,SAAO;AACP,mBAAiB;AACjB,iBAAe;AACf,iBAAe;AACjB;AAEA,CArBC,cAqBc,IAAI,CAAC,CAAC;AACrB,CAtBC,cAsBc,IAAI,CAAC;AAClB,cAAY,KAAK,GAAG,EAAE,GAAG,EAAE,GAAG,EAAE;AAClC;AAEA,CAAC;AACC,QAAM;AACN,WAAS;AACT,cAAY;AACd;",
+  "names": []
+}

@@ -1,0 +1,23 @@
+<div class="verify-container">
+  <div class="verify-card">
+    <h1 class="card-title">Xác thực Email</h1>
+
+    <!-- Loading State -->
+    <div *ngIf="loading()" class="status-message">
+      <div class="spinner"></div>
+      <p>Đang xác thực, vui lòng chờ...</p>
+    </div>
+
+    <!-- Success State -->
+    <div *ngIf="successMessage()" class="status-message success">
+      <p>{{ successMessage() }}</p>
+      <a routerLink="/login" class="login-button">Đi đến trang Đăng nhập</a>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage()" class="status-message error">
+      <p>{{ errorMessage() }}</p>
+      <a routerLink="/register" class="login-button">Thử lại</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,145 @@
+<!-- Loading Overlay -->
+<div class="loading-overlay" *ngIf="isSubmitting()">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <h3>Đang xử lý đơn hàng...</h3>
+    <p>Vui lòng không đóng trình duyệt hoặc nhấn nút "Quay lại".</p>
+    <div class="progress-info">
+      <small>Đang gửi email xác nhận và kết nối cổng thanh toán...</small>
+    </div>
+  </div>
+</div>
+
+<!-- Dùng as cart để lấy object giỏ hàng an toàn -->
+<main class="checkout-figma" *ngIf="cart$ | async as cart">
+    <h1 class="checkout-figma__title">Thanh toán</h1>
+
+    <div class="checkout-figma__container">
+        <!-- CỘT TRÁI -->
+        <div class="checkout-figma__left">
+            <div class="checkout-figma__section">
+                <div class="checkout-figma__section-title d-flex-between">
+                    <span>Thông tin giao hàng</span>
+                    <a routerLink="/user/addresses" class="add-address-link">Quản lý sổ địa chỉ</a>
+                </div>
+
+                <div class="checkout-figma__address-list">
+                    <ng-container *ngIf="addresses().length > 0; else noAddress">
+                        <label class="checkout-figma__address-card" *ngFor="let addr of addresses()"
+                            [class.selected]="selectedAddressId() === addr.id">
+
+                            <input type="radio" name="addressOption" [value]="addr.id" [(ngModel)]="selectedAddressId"
+                                class="checkout-figma__payment-input">
+
+                            <div class="address-details">
+                                <div class="address-name">
+                                    <strong>{{ addr.full_name }}</strong> | {{ addr.phone }}
+                                    <span *ngIf="addr.is_default" class="badge">Mặc định</span>
+                                </div>
+                                <div class="address-text">{{ addr.address }}</div>
+                            </div>
+                        </label>
+                    </ng-container>
+
+                    <ng-template #noAddress>
+                        <div class="no-address-alert">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <p>Bạn chưa có địa chỉ giao hàng nào.</p>
+                            <a routerLink="/user/addresses" class="checkout-figma__btn-small">Thêm địa chỉ mới ngay</a>
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div class="checkout-figma__form-group checkout-figma__form-group--full mt-4">
+                    <label class="checkout-figma__label">Ghi chú đơn hàng (Tùy chọn)</label>
+                    <textarea class="checkout-figma__textarea" [(ngModel)]="orderNote"
+                        placeholder="Ví dụ: Giao hàng ngoài giờ hành chính..."></textarea>
+                </div>
+            </div>
+
+            <div class="checkout-figma__section">
+                <div class="checkout-figma__section-title">Phương thức thanh toán</div>
+                <div class="checkout-figma__payment-options">
+                    <label class="checkout-figma__payment-option" [class.selected]="paymentMethod() === 'cod'">
+                        <input type="radio" name="payment" value="cod" [(ngModel)]="paymentMethod"
+                            class="checkout-figma__payment-input">
+                        <span class="checkout-figma__payment-label">Thanh toán khi nhận hàng (COD)</span>
+                        <i class="fa-solid fa-money-bill-wave" style="color: #12283e;"></i>
+                    </label>
+
+                    <label class="checkout-figma__payment-option" [class.selected]="paymentMethod() === 'vnpay'">
+                        <input type="radio" name="payment" value="vnpay" [(ngModel)]="paymentMethod"
+                            class="checkout-figma__payment-input">
+                        <span class="checkout-figma__payment-label">Chuyển khoản an toàn qua PayOS (Mã QR)</span>
+                        <i class="fa-solid fa-qrcode" style="color: #12283e;"></i>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- CỘT PHẢI -->
+        <div class="checkout-figma__right">
+            <!-- Đếm số lượng sản phẩm an toàn từ cart.items -->
+            <div class="checkout-figma__section-title">Đơn hàng của bạn ({{ cart.items.length || 0 }})</div>
+
+            <div class="checkout-figma__product-list">
+                <!-- Lặp qua mảng sản phẩm. Dùng được cho cả "Giỏ Hàng" và "Mua Ngay" -->
+                <div class="checkout-figma__product-item" *ngFor="let item of cart.items">
+                    <img [src]="item.variant?.images?.[0]?.image_url || 'https://via.placeholder.com/64'"
+                        [alt]="item.variant?.product?.name" class="checkout-figma__product-img">
+                    <div class="checkout-figma__product-info">
+                        <span class="checkout-figma__product-name">{{ item.variant?.product?.name || 'Sản phẩm'
+                            }}</span>
+                        <span class="checkout-figma__product-meta">SL: {{ item.quantity }} | Thuộc tính: {{
+                            item.variant?.variant_options || 'Mặc định' }}</span>
+                    </div>
+                    <div class="checkout-figma__product-price">
+                        {{ ((item.variant?.price || 0) * item.quantity) | number:'1.0-0' }}₫
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coupon Input -->
+            <div class="coupon-section mt-4">
+                <div class="coupon-input-group" *ngIf="!appliedCoupon()">
+                    <input type="text" [(ngModel)]="couponCode" placeholder="Mã giảm giá" class="coupon-input">
+                    <button class="btn-apply" (click)="applyCoupon(cart.items)">Áp dụng</button>
+                </div>
+                <div class="applied-coupon" *ngIf="appliedCoupon()">
+                    <div class="coupon-info">
+                        <i class="fa-solid fa-tag"></i>
+                        <span>Mã <strong>{{ appliedCoupon().code }}</strong></span>
+                    </div>
+                    <button class="btn-remove" (click)="removeCoupon()">Xóa</button>
+                </div>
+                <p class="coupon-error" *ngIf="couponError()" style="color: #d70018; font-size: 0.8rem; margin-top: 5px;">{{ couponError() }}</p>
+            </div>
+
+            <div class="checkout-figma__summary-row mt-4">
+                <span>Tạm tính</span>
+                <!-- GỌI HÀM calculateTotal để tính tiền dựa trên dữ liệu đang hiển thị -->
+                <span>{{ calculateTotal(cart.items) | number:'1.0-0' }}₫</span>
+            </div>
+            <div class="checkout-figma__summary-row" *ngIf="discountAmount() > 0">
+                <span>Giảm giá</span>
+                <span style="color: #28a745;">-{{ discountAmount() | number:'1.0-0' }}₫</span>
+            </div>
+            <div class="checkout-figma__summary-row">
+                <span>Phí vận chuyển</span>
+                <span>Miễn phí</span>
+            </div>
+            <div class="checkout-figma__summary-row checkout-figma__summary-row--total">
+                <span>Tổng cộng</span>
+                <!-- Tính tiền cho cả đơn -->
+                <span style="color: #d70018;">{{ calculateTotal(cart.items) - discountAmount() | number:'1.0-0' }}₫</span>
+            </div>
+
+            <!-- Nút Đặt Hàng -->
+            <button class="checkout-figma__btn"
+                [disabled]="!cart.items || cart.items.length === 0 || addresses().length === 0 || isSubmitting()"
+                (click)="placeOrder(cart)">
+                {{ isSubmitting() ? 'ĐANG XỬ LÝ...' : 'ĐẶT HÀNG NGAY' }}
+            </button>
+        </div>
+    </div>
+</main>

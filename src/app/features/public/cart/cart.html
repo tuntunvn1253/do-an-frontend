@@ -1,0 +1,107 @@
+
+<div class="cart-page" *ngIf="cart$ | async as cart">
+    <h1 class="cart-page__title">Giỏ hàng của bạn</h1>
+
+    
+    <div *ngIf="cart.items.length === 0" class="empty-cart">
+        <i class="fa-solid fa-cart-arrow-down empty-cart__icon"></i>
+        <p class="empty-cart__text">Giỏ hàng của bạn đang trống.</p>
+        <a routerLink="/products" class="empty-cart__btn">Tiếp tục mua sắm ngay</a>
+    </div>
+
+    
+    <div class="cart-container" *ngIf="cart.items.length > 0">
+        
+        <!-- CỘT TRÁI: DANH SÁCH SẢN PHẨM -->
+        <div class="cart-items-section">
+            <!-- Header của bảng -->
+            <div class="cart-header">
+                <div class="col-product">Sản phẩm</div>
+                <div class="col-price">Đơn giá</div>
+                <div class="col-quantity">Số lượng</div>
+                <div class="col-total">Thành tiền</div>
+                <div class="col-remove"></div>
+            </div>
+
+            <!-- các sản phẩm trong giỏ -->
+            <div class="cart-item" *ngFor="let item of cart.items">
+                
+                <!-- Hình ảnh & Tên -->
+                <div class="product-info col-product">
+                    <div class="img-wrap">
+                        <img [src]="item.variant?.images?.[0]?.image_url || 'assets/images/placeholder.jpg'" 
+                             [alt]="item.variant?.product?.name" 
+                             class="product-img">
+                    </div>
+                    <div class="product-details">
+                        <a [routerLink]="['/sp', item.variant?.product?.slug || item.variant?.product?.id]" class="product-name">
+                            {{ item.variant?.product?.name }}
+                        </a>
+                        <span class="product-variant">Phân loại: {{ item.variant?.variant_options }}</span>
+                    </div>
+                </div>
+
+                <!-- Đơn giá -->
+                <div class="item-price col-price">
+                    {{ item.variant?.price | number:'1.0-0' }}₫
+                </div>
+
+                <!-- Số lượng  Tăng/Giảm -->
+                <div class="qty-ctrl col-quantity">
+                    <button class="qty-btn" (click)="updateQuantity(item, -1)">-</button>
+                    <input type="text" [value]="item.quantity" class="qty-input" readonly>
+                    <button class="qty-btn" (click)="updateQuantity(item, 1)">+</button>
+                </div>
+
+                <!-- Thành tiền -->
+                <div class="item-total col-total">
+                    {{ (item.variant?.price * item.quantity) | number:'1.0-0' }}₫
+                </div>
+
+                <!-- Xóa -->
+                <div class="item-remove col-remove">
+                    <button class="remove-btn" (click)="removeItem(item.id)" title="Xóa khỏi giỏ hàng">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Xóa toàn bộ giỏ hàng -->
+            <div class="cart-actions">
+                <button class="clear-cart-btn" (click)="clearCart()">
+                    <i class="fa-solid fa-broom"></i> Xóa toàn bộ giỏ hàng
+                </button>
+            </div>
+        </div>
+
+        <!-- CỘT PHẢI: TỔNG QUAN ĐƠN HÀNG  -->
+        <div class="cart-summary">
+            <h2 class="summary-title">Tổng quan đơn hàng</h2>
+            
+            <div class="summary-row">
+                <span>Tổng số lượng:</span>
+                <span>{{ cartService.getCartCount() }} sản phẩm</span>
+            </div>
+            
+            <div class="summary-row">
+                <span>Tạm tính:</span>
+                <span>{{ cartService.getCartTotal() | number:'1.0-0' }}₫</span>
+            </div>
+            
+            
+            <div class="summary-row">
+                <span>Giảm giá:</span>
+                <span>0₫</span>
+            </div>
+
+            <div class="summary-row summary-row--total">
+                <span>Tổng cộng:</span>
+                <span>{{ cartService.getCartTotal() | number:'1.0-0' }}₫</span>
+            </div>
+
+            <button routerLink="/checkout" class="checkout-btn">Thanh toán ngay</button>
+            <a routerLink="/products" class="continue-shopping-link">Tiếp tục mua sắm</a>
+        </div>
+
+    </div>
+</div>

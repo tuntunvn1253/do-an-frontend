@@ -1,0 +1,24 @@
+<header class="admin-topbar">
+  <div class="topbar-title">
+    <h2>Dashboard</h2>
+    <p>Chào mừng quản trị viên, đây là tổng quan hoạt động của cửa hàng.</p>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="topbar-search">
+      <input type="text" placeholder="Tìm kiếm…" aria-label="Tìm kiếm" />
+      <button aria-label="Tìm kiếm">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+    <button class="topbar-btn" title="Thông báo">
+      <i class="fa-regular fa-bell"></i>
+      <span class="topbar-badge">3</span>
+    </button>
+    <button class="topbar-btn topbar-btn--profile" title="Tài khoản" (click)="logout()">
+      <span class="profile-avatar">AD</span>
+      <span class="profile-name">Admin</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+  </div>
+</header>

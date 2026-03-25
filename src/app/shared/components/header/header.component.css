@@ -1,0 +1,378 @@
+/* ============= HEADER FIGMA ============= */
+.header-figma {
+    width: 100%;
+    background: #fff;
+    font-family: 'Nunito Sans', sans-serif;
+    color: #1b1b1b;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-figma__promo-bar {
+    display: flex;
+    width: 100%;
+    height: 44px;
+}
+
+.header-figma__promo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.header-figma__promo--green {
+    background: #6fdd00;
+    color: #fff;
+}
+
+.header-figma__promo--purple {
+    background: #7367f0;
+    color: #fff;
+    min-width: 400px;
+    flex: 2;
+    gap: 10px;
+}
+
+.header-figma__promo-text {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    display: none;
+}
+
+.header-figma__promo-text.active {
+    display: inline;
+    animation: fadeEffect 0.5s;
+}
+
+.header-figma__promo-btn {
+    background: #12283e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px 6px 10px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.header-figma__promo-btn:hover {
+    background: #1b1b1b;
+}
+
+.header-figma__main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 67px;
+    background: #001a2d;
+    position: relative;
+}
+
+.header-figma__logo img {
+    height: 34px;
+    width: auto;
+    margin-right: 24px;
+}
+
+.header-figma__nav {
+    display: flex;
+    gap: 36px;
+    height: 100%;
+    align-items: center;
+}
+
+.header-figma__nav-link {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 24px 0 24px 0;
+    transition: color 0.2s;
+    position: relative;
+}
+
+.header-figma__nav-link--highlight {
+    color: #77e51f;
+}
+
+.header-figma__nav-link:hover {
+    color: #7367f0;
+}
+
+.header-figma__search-cart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-figma__search {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    padding: 0 0 0 15px;
+    height: 38px;
+    margin-right: 10px;
+}
+
+.header-figma__search-input {
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 14px;
+    width: 104px;
+    outline: none;
+    padding: 9px 0 10px 0;
+}
+
+.header-figma__search-input::placeholder {
+    color: #ddd;
+}
+
+.header-figma__search-btn {
+    background: none;
+    border: none;
+    padding: 0 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.header-figma__search-btn img {
+    width: 16px;
+    height: 16px;
+}
+
+.header-figma__icon-btn {
+    background: none;
+    border: none;
+    padding: 0 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.header-figma__icon-btn:hover {
+    color: #77e51f;
+}
+
+.header-figma__benefits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f2e9;
+    padding: 0 48px;
+    height: 40px;
+    gap: 40px;
+}
+
+.header-figma__benefit {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: #515151;
+}
+
+.header-figma__benefit img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Responsive cho Header */
+@media (max-width: 1200px) {
+    .header-figma__main {
+        padding: 0 10px;
+    }
+
+    .header-figma__benefits {
+        padding: 0 10px;
+        gap: 16px;
+    }
+
+    .header-figma__nav {
+        gap: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-figma__main {
+        flex-direction: column;
+        height: auto;
+        padding: 0 4px;
+        gap: 8px;
+    }
+
+    .header-figma__nav {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .header-figma__benefits {
+        flex-direction: column;
+        height: auto;
+        gap: 8px;
+        padding: 0 4px;
+    }
+}
+
+/* ============= NAVBAR DROPDOWN ============= */
+.nav-dropdown-figma {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 67px;
+    width: 100vw;
+    background: #fff;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    z-index: 1000;
+    padding: 36px 0 36px 0;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.nav-dropdown-figma__inner {
+    display: flex;
+    max-width: 1720px;
+    margin: 0 auto;
+    gap: 40px;
+    justify-content: flex-start;
+}
+
+.nav-dropdown-figma__col {
+    min-width: 315px;
+    max-width: 355px;
+    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.nav-dropdown-figma__col-title {
+    font-size: 16.8px;
+    font-weight: 700;
+    color: #1b1b1b;
+    border-bottom: 2px solid #12283e;
+    padding-bottom: 2px;
+    margin-bottom: 8px;
+}
+
+.nav-dropdown-figma__col-title--active {
+    color: #1b1b1b;
+}
+
+.nav-dropdown-figma__item {
+    font-size: 14px;
+    color: #1b1b1b;
+    font-weight: 400;
+    padding: 4.6px 0 5.8px 0;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+}
+
+.nav-dropdown-figma__item--green {
+    color: #57ae00;
+}
+
+.nav-dropdown-figma__item--lightgreen {
+    color: #78e723;
+}
+
+.nav-dropdown-figma__item--red {
+    color: #ff3b30;
+}
+
+.nav-dropdown-figma__item:hover {
+    color: #7367f0;
+}
+
+/* Hiện dropdown khi hover chuột vào nav-link Sản phẩm hoặc Dropdown */
+.header-figma__nav-link[data-nav='products']:hover~.nav-dropdown-figma,
+.nav-dropdown-figma:hover {
+    display: block;
+}
+
+/* ============= USER DROPDOWN MENU ============= */
+.user-menu {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    z-index: 1001;
+    display: none;
+    padding: 16px;
+}
+
+.user-menu:hover .user-dropdown {
+    display: block;
+}
+
+.user-info {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 8px;
+}
+
+.user-name {
+    display: block;
+    font-weight: 600;
+    color: #1b1b1b;
+    font-size: 14px;
+}
+
+.user-email {
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.user-menu-item {
+    display: block;
+    padding: 8px 0;
+    color: #1b1b1b;
+    text-decoration: none;
+    font-size: 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+.user-menu-item:hover {
+    color: #7367f0;
+}
+
+.logout-btn {
+    color: #d23e3e;
+}
+
+.logout-btn:hover {
+    color: #b32d2d;
+}

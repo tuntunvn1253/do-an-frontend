@@ -1,0 +1,92 @@
+<!-- Login Main Content -->
+<main class="login-page">
+  <div class="login-container">
+    <div class="login-breadcrumb"><a routerLink="/">Trang chủ</a> / <span>Đăng nhập</span></div>
+    <h1 class="login-page-title">ĐĂNG NHẬP TÀI KHOẢN</h1>
+
+    <div class="login-wrapper">
+      <!-- Cột Đăng nhập -->
+      <div class="login-col login-col--left">
+        <h2 class="login-title">KHÁCH HÀNG ĐÃ ĐĂNG KÝ</h2>
+        <p class="login-subtitle">
+          Nếu bạn đã có tài khoản, hãy đăng nhập bằng địa chỉ email của bạn.
+        </p>
+
+        <!-- Error/Success messages -->
+        <div *ngIf="error()" class="alert alert-error">{{ error() }}</div>
+        <div *ngIf="success()" class="alert alert-success">
+          Đăng nhập thành công! Đang chuyển hướng...
+        </div>
+
+        <div class="social-login-group">
+          <button
+            type="button"
+            class="social-btn facebook"
+            (click)="socialLogin('Facebook')"
+            [disabled]="loading()"
+          >
+            <i class="fab fa-facebook-f"></i> Facebook
+          </button>
+          <button
+            type="button"
+            class="social-btn google"
+            (click)="socialLogin('Google')"
+            [disabled]="loading()"
+          >
+            <i class="fab fa-google"></i> Google
+          </button>
+        </div>
+
+        <div class="login-divider">
+          <span>HOẶC</span>
+        </div>
+
+        <form class="login-form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Nhập Email"
+              [(ngModel)]="email"
+              name="email"
+              [disabled]="loading()"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu <span class="required">*</span></label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Nhập mật khẩu"
+              [(ngModel)]="password"
+              name="password"
+              [disabled]="loading()"
+              required
+            />
+          </div>
+          <div class="form-actions">
+            <a routerLink="/forgot-password" class="forgot-password">Quên mật khẩu?</a>
+          </div>
+          <button type="submit" class="login-submit-btn" [disabled]="loading()">
+            {{ loading() ? 'ĐANG ĐĂNG NHẬP...' : 'ĐĂNG NHẬP' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Cột Đăng ký -->
+      <div class="login-col login-col--right">
+        <h2 class="login-title">KHÁCH HÀNG MỚI</h2>
+        <p class="login-subtitle">Tạo tài khoản để nhận được nhiều ưu đãi và tiện ích hơn:</p>
+        <ul class="login-benefits">
+          <li>Thanh toán nhanh chóng và dễ dàng hơn</li>
+          <li>Theo dõi lịch sử đơn hàng</li>
+          <li>Lưu danh sách sản phẩm yêu thích</li>
+          <li>Nhận thông tin khuyến mãi sớm nhất</li>
+        </ul>
+        <a routerLink="/register" class="register-btn">ĐĂNG KÝ TÀI KHOẢN</a>
+      </div>
+    </div>
+  </div>
+</main>

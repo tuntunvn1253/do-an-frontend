@@ -1,0 +1,111 @@
+<div class="category-management-container">
+  <div class="header-section">
+    <div class="header-content">
+      <div class="title-group">
+        <h1 class="page-title">Quản Lý Danh Mục</h1>
+        <p class="page-subtitle">Quản lý phân loại sản phẩm trên toàn hệ thống</p>
+      </div>
+      <button class="btn btn-primary" (click)="openModal()">
+        <span class="icon">+</span> Thêm Danh Mục Mới
+      </button>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <div class="search-box">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Tìm kiếm theo tên hoặc slug..."
+        [(ngModel)]="searchQuery"
+      />
+    </div>
+    <span class="search-count">{{ filteredCategories.length }} danh mục</span>
+  </div>
+
+  <div class="table-container" *ngIf="!loading">
+    <table class="categories-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Hình Ảnh</th>
+          <th>Tên Danh Mục</th>
+          <th>Slug</th>
+          <th>Thứ Tự</th>
+          <th>Trạng Thái</th>
+          <th style="text-align: center;">Hành Động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of filteredCategories" class="category-row">
+          <td>{{ category.id }}</td>
+          <td>
+            <div class="category-preview">
+              <img [src]="category.image_url || 'https://via.placeholder.com/40'" class="category-img" alt="category">
+            </div>
+          </td>
+          <td><strong>{{ category.name }}</strong></td>
+          <td><code>{{ category.slug }}</code></td>
+          <td>{{ category.sort_order }}</td>
+          <td>
+            <button class="status-toggle" 
+                    [ngClass]="category.status ? 'badge-active' : 'badge-inactive'"
+                    (click)="toggleStatus(category)">
+              {{ category.status ? 'Hoạt động' : 'Đang ẩn' }}
+            </button>
+          </td>
+          <td style="text-align: center;">
+            <button class="btn btn-edit" (click)="openModal(category)">Sửa</button>
+            <button class="btn btn-delete" (click)="deleteCategory(category.id)">Xóa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredCategories.length === 0" class="no-result">
+      Không tìm thấy danh mục nào.
+    </div>
+  </div>
+
+  <div *ngIf="showModal" class="modal-overlay" (click)="showModal = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ isAddMode ? 'Thêm Danh Mục' : 'Cập Nhật Danh Mục' }}</h2>
+        <button (click)="showModal = false">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="categoryForm">
+          <div class="form-group">
+            <label>Tên Danh Mục *</label>
+            <input type="text" class="form-control" formControlName="name" (input)="onNameChange()" placeholder="Ví dụ: Đồ gia dụng">
+          </div>
+          <div class="form-group">
+            <label>Slug (Đường dẫn tĩnh) *</label>
+            <input type="text" class="form-control" formControlName="slug" placeholder="Ví dụ: do-gia-dung">
+          </div>
+          <div class="form-group">
+            <label>URL Hình Ảnh</label>
+            <input type="text" class="form-control" formControlName="image_url" placeholder="https://...">
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Thứ Tự Hiển Thị</label>
+              <input type="number" class="form-control" formControlName="sort_order">
+            </div>
+            <div class="form-group half">
+              <label>Trạng Thái</label>
+              <select class="form-control" formControlName="status">
+                <option [ngValue]="true">Hoạt động</option>
+                <option [ngValue]="false">Đang ẩn</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showModal = false">Hủy</button>
+        <button class="btn btn-primary" (click)="saveCategory()">Lưu Danh Mục</button>
+      </div>
+    </div>
+  </div>
+</div>
